@@ -2,25 +2,25 @@ package be.giftapi.javabeans;
 
 import java.io.Serializable;
 
-public class History implements Serializable {
+public class Participation implements Serializable {
 
 	private static final long serialVersionUID = -4098840781809412627L;
-    private int idHistory;
+    private int idParticipation;
     private double amountPaid;
     private Customer customer;
     private Gift gift;
 
-    public History()
+    public Participation()
     {
 
     }
 
-    public int getIdHistory() {
-        return idHistory;
+    public int getIdParticipation() {
+        return idParticipation;
     }
 
-    public void setIdHistory(int idHistory) {
-        this.idHistory = idHistory;
+    public void setIdParticipation(int idParticipation) {
+        this.idParticipation = idParticipation;
     }
 
     public double getAmountPaid() {

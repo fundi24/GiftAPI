@@ -14,7 +14,7 @@ public class Customer implements Serializable {
 	private LocalDate dateOfBirth;
 	private String username;
 	private String password;
-	private ArrayList<History> histories;
+	private ArrayList<Participation> participations;
 	private ArrayList<ListGift> myListGifts;
 	private ArrayList<ListGift> sharedListGifts;
 	private ArrayList<Notification> notifications;
@@ -72,12 +72,12 @@ public class Customer implements Serializable {
 		this.password = password;
 	}
 
-	public ArrayList<History> getHistories() {
-		return histories;
+	public ArrayList<Participation> getParticipations() {
+		return participations;
 	}
 
-	public void setHistories(ArrayList<History> histories) {
-		this.histories = histories;
+	public void setParticipations(ArrayList<Participation> participations) {
+		this.participations = participations;
 	}
 
 	public ArrayList<ListGift> getMyListGifts() {
