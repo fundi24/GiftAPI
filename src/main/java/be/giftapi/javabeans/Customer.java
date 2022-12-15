@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import be.giftapi.dao.AbstractDAOFactory;
+import be.giftapi.dao.DAO;
+
 public class Customer implements Serializable {
 	
 
@@ -21,8 +24,28 @@ public class Customer implements Serializable {
 	
 	public Customer()
 	{
-		
+		participations = new ArrayList<>();
+		myListGifts = new ArrayList<>();
+		sharedListGifts = new ArrayList<>();
+		notifications = new ArrayList<>();
 	}
+	
+
+	public Customer(int idCustomer, String firstName, String lastName, LocalDate dateOfBirth, String username,
+			String password) {
+		super();
+		this.idCustomer = idCustomer;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.dateOfBirth = dateOfBirth;
+		this.username = username;
+		this.password = password;
+		participations = new ArrayList<>();
+		myListGifts = new ArrayList<>();
+		sharedListGifts = new ArrayList<>();
+		notifications = new ArrayList<>();
+	}
+
 
 	public int getIdCustomer() {
 		return idCustomer;
@@ -102,6 +125,13 @@ public class Customer implements Serializable {
 
 	public void setNotifications(ArrayList<Notification> notifications) {
 		this.notifications = notifications;
+	}
+	
+	public boolean insert() {
+		AbstractDAOFactory adf = AbstractDAOFactory.getFactory();
+		DAO<Customer> customerDAO = adf.getCustomerDAO();
+		return customerDAO.create(this);
+		
 	}
 	
 }
