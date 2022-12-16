@@ -38,7 +38,9 @@ public class ListGiftAPI {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		LocalDate deadline = LocalDate.parse(dl, formatter);
 		
-		Customer owner = Customer.getCustomer(idOwner);
+		//Customer owner = Customer.getCustomer(idOwner);
+		Customer owner = new Customer();
+		owner.setIdCustomer(idOwner);
 		
 		ListGift listGift = new ListGift(0, name, deadline, status, theme, owner);
 		boolean success = listGift.insert();
