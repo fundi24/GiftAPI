@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import be.giftapi.dao.AbstractDAOFactory;
+import be.giftapi.dao.DAO;
+
 public class ListGift implements Serializable {
 	
 	private static final long serialVersionUID = 99181030694279507L;
@@ -18,10 +21,23 @@ public class ListGift implements Serializable {
 
     public ListGift()
     {
-
+		participants = new ArrayList<>();
+		gifts = new ArrayList<>();
     }
+    
+	public ListGift(int idListGift, String name, LocalDate deadline, boolean status, String theme, Customer owner) {
+		this.idListGift = idListGift;
+		this.name = name;
+		this.deadline = deadline;
+		this.status = status;
+		this.theme = theme;
+		this.owner = owner;
+		participants = new ArrayList<>();
+		gifts = new ArrayList<>();
+	}
 
-    public int getIdListGift() {
+
+	public int getIdListGift() {
         return idListGift;
     }
 
@@ -84,6 +100,17 @@ public class ListGift implements Serializable {
     public void setGifts(ArrayList<Gift> gifts) {
         this.gifts = gifts;
     }
-
+    
+    public boolean insert() {
+		AbstractDAOFactory adf = AbstractDAOFactory.getFactory();
+		DAO<ListGift> listGiftDAO = adf.getListGiftDAO();
+		return listGiftDAO.create(this);
+    }
+    
+	public static ListGift getListGift(int id) {
+		AbstractDAOFactory adf = AbstractDAOFactory.getFactory();
+		DAO<ListGift> listGiftDAO = adf.getListGiftDAO();
+		return listGiftDAO.find(id);
+	}
 
 }

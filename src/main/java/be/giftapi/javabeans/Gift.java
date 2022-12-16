@@ -4,6 +4,9 @@ import java.awt.Image;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import be.giftapi.dao.AbstractDAOFactory;
+import be.giftapi.dao.DAO;
+
 public class Gift implements Serializable{
 	private static final long serialVersionUID = -375971532475389184L;
 	private int idGift;
@@ -14,7 +17,7 @@ public class Gift implements Serializable{
 	private int priority;
 	private boolean booked;
 	private boolean multiplePayment;
-	private String linkToWebstite;
+	private String linkToWebsite;
 	private ListGift listGift;
 	private ArrayList<Participation> participations;
 	
@@ -22,6 +25,22 @@ public class Gift implements Serializable{
 	{
 		
 	}
+	
+
+	public Gift(int idGift, String name, String description, double price, int priority, boolean booked,
+			boolean multiplePayment, String linkToWebsite, ListGift listGift) {
+		this.idGift = idGift;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.priority = priority;
+		this.booked = booked;
+		this.multiplePayment = multiplePayment;
+		this.linkToWebsite = linkToWebsite;
+		this.listGift = listGift;
+	}
+
+
 
 	public int getIdGift() {
 		return idGift;
@@ -87,12 +106,12 @@ public class Gift implements Serializable{
 		this.multiplePayment = multiplePayment;
 	}
 
-	public String getLinkToWebstite() {
-		return linkToWebstite;
+	public String getLinkToWebsite() {
+		return linkToWebsite;
 	}
 
-	public void setLinkToWebstite(String linkToWebstite) {
-		this.linkToWebstite = linkToWebstite;
+	public void setLinkToWebsite(String linkToWebsite) {
+		this.linkToWebsite = linkToWebsite;
 	}
 
 	public ListGift getListGift() {
@@ -109,5 +128,17 @@ public class Gift implements Serializable{
 
 	public void setHistories(ArrayList<Participation> participations) {
 		this.participations= participations;
+	}
+	
+	public boolean insert() {
+		AbstractDAOFactory adf = AbstractDAOFactory.getFactory();
+		DAO<Gift> GiftDAO = adf.getGiftDAO();
+		return GiftDAO.create(this);
+	}
+	
+	public static Gift getGift(int id) {
+		AbstractDAOFactory adf = AbstractDAOFactory.getFactory();
+		DAO<Gift> GiftDAO = adf.getGiftDAO();
+		return GiftDAO.find(id);
 	}
 }

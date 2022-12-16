@@ -133,4 +133,10 @@ public class Customer implements Serializable {
 		return customerDAO.create(this);
 	}
 	
+	public static Customer getCustomer(int id) {
+		AbstractDAOFactory adf = AbstractDAOFactory.getFactory();
+		DAO<Customer> customerDAO = adf.getCustomerDAO();
+		return customerDAO.find(id);
+	}
+	
 }

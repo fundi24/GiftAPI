@@ -2,6 +2,9 @@ package be.giftapi.javabeans;
 
 import java.io.Serializable;
 
+import be.giftapi.dao.AbstractDAOFactory;
+import be.giftapi.dao.DAO;
+
 public class Notification implements Serializable{
 	
 	private static final long serialVersionUID = 3306630235932605381L;
@@ -14,8 +17,16 @@ public class Notification implements Serializable{
     {
 
     }
+    
+    public Notification(int idNotification, String message, boolean read, Customer customer) {
+		super();
+		this.idNotification = idNotification;
+		this.message = message;
+		this.read = read;
+		this.customer = customer;
+	}
 
-    public int getIdNotification() {
+	public int getIdNotification() {
         return idNotification;
     }
 
@@ -46,6 +57,10 @@ public class Notification implements Serializable{
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-
-
+    
+    public boolean insert() {
+		AbstractDAOFactory adf = AbstractDAOFactory.getFactory();
+		DAO<Notification> notificationDAO = adf.getNotificationDAO();
+		return notificationDAO.create(this);
+    }
 }

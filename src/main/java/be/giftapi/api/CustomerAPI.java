@@ -19,7 +19,7 @@ public class CustomerAPI {
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response insertClient(String data) {
+	public Response insertCustomer(String data) {
 		
 		JSONObject json = new JSONObject(data);
 		String firstName = json.getString("firstName");
