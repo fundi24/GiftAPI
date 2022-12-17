@@ -59,7 +59,7 @@ public class GiftDAO extends DAO<Gift>{
 	    }
 
 	    @Override
-	    public ArrayList<Gift> findAll(int id) {
+	    public ArrayList<Gift> findAll() {
 	        return null;
 	    }
 }
