@@ -56,7 +56,7 @@ public class ListGiftDAO extends DAO<ListGift> {
 	    }
 
 	    @Override
-	    public ArrayList<ListGift> findAll(int id) {
+	    public ArrayList<ListGift> findAll() {
 	        return null;
 	    }
 }
