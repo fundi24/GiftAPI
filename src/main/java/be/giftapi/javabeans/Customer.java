@@ -11,6 +11,10 @@ public class Customer implements Serializable {
 	
 
 	private static final long serialVersionUID = 2411323456692016479L;
+	
+	private static final AbstractDAOFactory adf =  AbstractDAOFactory.getFactory();;
+	private static final DAO<Customer> customerDAO = adf.getCustomerDAO();
+	
 	private int idCustomer;
 	private String firstName;
 	private String lastName;
@@ -21,6 +25,8 @@ public class Customer implements Serializable {
 	private ArrayList<ListGift> myListGifts;
 	private ArrayList<ListGift> sharedListGifts;
 	private ArrayList<Notification> notifications;
+	
+	
 	
 	public Customer()
 	{
@@ -46,6 +52,8 @@ public class Customer implements Serializable {
 		notifications = new ArrayList<>();
 	}
 
+	
+	//Getters and Setters
 
 	public int getIdCustomer() {
 		return idCustomer;
@@ -127,15 +135,45 @@ public class Customer implements Serializable {
 		this.notifications = notifications;
 	}
 	
+	//Add and remove for lists
+	
+	public void addParticipation(Participation participation) {
+		participations.add(participation);
+	}
+	public void addMyListGifts(ListGift listGift) {
+		myListGifts.add(listGift);
+	}
+	
+	public void addSharedListGift(ListGift sharedlistGift) {
+		sharedListGifts.add(sharedlistGift);
+	}
+	
+	public void addNotifications(Notification notification) {
+		notifications.add(notification);
+	}
+	
+	public void removeParticipation(Participation participation) {
+		participations.remove(participation);
+	}
+	public void removeMyListGifts(ListGift listGift) {
+		myListGifts.remove(listGift);
+	}
+	
+	public void removeSharedListGift(ListGift sharedlistGift) {
+		sharedListGifts.remove(sharedlistGift);
+	}
+	
+	public void removeNotifications(Notification notification) {
+		notifications.remove(notification);
+	}
+	
+	//Call to DAO
+	
 	public boolean insert() {
-		AbstractDAOFactory adf = AbstractDAOFactory.getFactory();
-		DAO<Customer> customerDAO = adf.getCustomerDAO();
 		return customerDAO.create(this);
 	}
 	
 	public static Customer getCustomer(int id) {
-		AbstractDAOFactory adf = AbstractDAOFactory.getFactory();
-		DAO<Customer> customerDAO = adf.getCustomerDAO();
 		return customerDAO.find(id);
 	}
 	

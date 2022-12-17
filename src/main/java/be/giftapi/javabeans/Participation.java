@@ -8,6 +8,9 @@ import be.giftapi.dao.DAO;
 public class Participation implements Serializable {
 
 	private static final long serialVersionUID = -4098840781809412627L;
+	private static final AbstractDAOFactory adf =  AbstractDAOFactory.getFactory();;
+	private static final DAO<Participation> participationDAO = adf.getParticipationDAO();
+	
     private int idParticipation;
     private double amountPaid;
     private Customer customer;
@@ -26,6 +29,8 @@ public class Participation implements Serializable {
 		this.gift = gift;
 	}
 
+    
+    //Getters and Setters
 
 	public int getIdParticipation() {
         return idParticipation;
@@ -59,9 +64,9 @@ public class Participation implements Serializable {
         this.gift = gift;
     }
     
+    
+    //Call to DAO
     public boolean insert() {
-		AbstractDAOFactory adf = AbstractDAOFactory.getFactory();
-		DAO<Participation> participationDAO = adf.getParticipationDAO();
 		return participationDAO.create(this);
     }
 }

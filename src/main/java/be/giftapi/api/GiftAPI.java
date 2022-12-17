@@ -39,7 +39,9 @@ public class GiftAPI {
 		}
 		
 		
-		ListGift listGift = ListGift.getListGift(idListGift);
+		//ListGift listGift = ListGift.getListGift(idListGift);
+		ListGift listGift = new ListGift();
+		listGift.setIdListGift(idListGift);
 		
 		Gift gift = new Gift(0, name, description, price, priority,booked, multiplePayment, linkToWebsite, listGift);
 		boolean success = gift.insert();

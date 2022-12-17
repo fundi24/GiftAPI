@@ -29,7 +29,9 @@ public class NotificationAPI {
 					.build();
 	    }
 	    
-	    Customer customer = Customer.getCustomer(idCustomer);
+	    //Customer customer = Customer.getCustomer(idCustomer);
+	    Customer customer = new Customer();
+		customer.setIdCustomer(idCustomer);
 		
 		Notification notification = new Notification(0,message,read,customer);
 		boolean success = notification.insert();
