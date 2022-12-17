@@ -8,7 +8,12 @@ import be.giftapi.dao.AbstractDAOFactory;
 import be.giftapi.dao.DAO;
 
 public class Gift implements Serializable{
+	
 	private static final long serialVersionUID = -375971532475389184L;
+	private static final AbstractDAOFactory adf =  AbstractDAOFactory.getFactory();;
+	private static final DAO<Gift> giftDAO = adf.getGiftDAO();
+	
+	
 	private int idGift;
 	private String name;
 	private String description;
@@ -23,7 +28,7 @@ public class Gift implements Serializable{
 	
 	public Gift ()
 	{
-		
+		participations = new ArrayList<>();
 	}
 	
 
@@ -38,9 +43,11 @@ public class Gift implements Serializable{
 		this.multiplePayment = multiplePayment;
 		this.linkToWebsite = linkToWebsite;
 		this.listGift = listGift;
+		participations = new ArrayList<>();
 	}
 
 
+	//Getters and Setters
 
 	public int getIdGift() {
 		return idGift;
@@ -130,15 +137,22 @@ public class Gift implements Serializable{
 		this.participations= participations;
 	}
 	
+	//Add and remove for lists
+	
+	public void addParticipation(Participation participation) {
+		participations.add(participation);
+	}
+	
+	public void removeParticipation(Participation participation) {
+		participations.remove(participation);
+	}
+	
+	//Call to DAO
 	public boolean insert() {
-		AbstractDAOFactory adf = AbstractDAOFactory.getFactory();
-		DAO<Gift> GiftDAO = adf.getGiftDAO();
-		return GiftDAO.create(this);
+		return giftDAO.create(this);
 	}
 	
 	public static Gift getGift(int id) {
-		AbstractDAOFactory adf = AbstractDAOFactory.getFactory();
-		DAO<Gift> GiftDAO = adf.getGiftDAO();
-		return GiftDAO.find(id);
+		return giftDAO.find(id);
 	}
 }

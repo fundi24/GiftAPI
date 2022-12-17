@@ -1,16 +1,25 @@
 package be.giftapi.javabeans;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.sql.SQLData;
+import java.sql.SQLException;
+import java.sql.SQLInput;
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 import be.giftapi.dao.AbstractDAOFactory;
 import be.giftapi.dao.DAO;
 
-public class Customer implements Serializable {
+public class Customer implements Serializable, SQLData {
 	
 
 	private static final long serialVersionUID = 2411323456692016479L;
+	
+	private static final AbstractDAOFactory adf =  AbstractDAOFactory.getFactory();;
+	private static final DAO<Customer> customerDAO = adf.getCustomerDAO();
+	
 	private int idCustomer;
 	private String firstName;
 	private String lastName;
@@ -21,6 +30,9 @@ public class Customer implements Serializable {
 	private ArrayList<ListGift> myListGifts;
 	private ArrayList<ListGift> sharedListGifts;
 	private ArrayList<Notification> notifications;
+	private String sql_type;
+	
+	
 	
 	public Customer()
 	{
@@ -46,6 +58,8 @@ public class Customer implements Serializable {
 		notifications = new ArrayList<>();
 	}
 
+	
+	//Getters and Setters
 
 	public int getIdCustomer() {
 		return idCustomer;
@@ -127,16 +141,89 @@ public class Customer implements Serializable {
 		this.notifications = notifications;
 	}
 	
+	//Add and remove for lists
+	
+	public void addParticipation(Participation participation) {
+		participations.add(participation);
+	}
+	public void addMyListGifts(ListGift listGift) {
+		myListGifts.add(listGift);
+	}
+	
+	public void addSharedListGift(ListGift sharedlistGift) {
+		sharedListGifts.add(sharedlistGift);
+	}
+	
+	public void addNotifications(Notification notification) {
+		notifications.add(notification);
+	}
+	
+	public void removeParticipation(Participation participation) {
+		participations.remove(participation);
+	}
+	public void removeMyListGifts(ListGift listGift) {
+		myListGifts.remove(listGift);
+	}
+	
+	public void removeSharedListGift(ListGift sharedlistGift) {
+		sharedListGifts.remove(sharedlistGift);
+	}
+	
+	public void removeNotifications(Notification notification) {
+		notifications.remove(notification);
+	}
+	
+	//Call to DAO
+	
 	public boolean insert() {
-		AbstractDAOFactory adf = AbstractDAOFactory.getFactory();
-		DAO<Customer> customerDAO = adf.getCustomerDAO();
 		return customerDAO.create(this);
 	}
 	
 	public static Customer getCustomer(int id) {
-		AbstractDAOFactory adf = AbstractDAOFactory.getFactory();
-		DAO<Customer> customerDAO = adf.getCustomerDAO();
 		return customerDAO.find(id);
 	}
+	
+	public static ArrayList<Customer> getCustomers(){
+		return customerDAO.findAll();
+	}
+
+
+	@Override
+	public String getSQLTypeName() throws SQLException {
+		return sql_type;
+	}
+
+
+	@Override
+	public void readSQL(SQLInput stream, String typeName) throws SQLException {
+		sql_type = typeName;
+		idCustomer = stream.readInt();
+		firstName = stream.readString();
+		lastName = stream.readString();
+		dateOfBirth = stream.readDate().toLocalDate();
+		username = stream.readString();
+		password = stream.readString();
+	}
+
+
+	@Override
+	public void writeSQL(SQLOutput stream) throws SQLException {
+		stream.writeInt(idCustomer);
+		stream.writeString(firstName);
+		stream.writeString(lastName);
+		stream.writeDate(Date.valueOf(dateOfBirth));
+		stream.writeString(username);
+		stream.writeString(password);
+	}
+
+
+	@Override
+	public String toString() {
+		return "Customer [idCustomer=" + idCustomer + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", dateOfBirth=" + dateOfBirth + ", username=" + username + ", password=" + password
+				+ ", participations=" + participations + ", myListGifts=" + myListGifts + ", sharedListGifts="
+				+ sharedListGifts + ", notifications=" + notifications + ", sql_type=" + sql_type + "]";
+	}
+	
 	
 }

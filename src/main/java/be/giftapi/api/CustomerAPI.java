@@ -2,10 +2,13 @@ package be.giftapi.api;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -55,6 +58,17 @@ public class CustomerAPI {
 					.build();
 		}
 		
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getCustomers() {
+		ArrayList<Customer> customers = Customer.getCustomers();
+		if(customers == null) {
+			return Response.status(Status.SERVICE_UNAVAILABLE).build();
+		}
+		
+		return Response.status(Status.OK).entity(customers).build();
 	}
 	
 }

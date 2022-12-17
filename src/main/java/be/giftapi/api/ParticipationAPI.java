@@ -30,8 +30,12 @@ public class ParticipationAPI {
 					.build();
 		}
 		
-	    Customer customer = Customer.getCustomer(idCustomer);
-	    Gift gift = Gift.getGift(idGift);
+	    //Customer customer = Customer.getCustomer(idCustomer);
+		Customer customer = new Customer();
+		customer.setIdCustomer(idCustomer);
+	    //Gift gift = Gift.getGift(idGift);
+		Gift gift = new Gift();
+		gift.setIdGift(idGift);
 		
 		
 		Participation participation = new Participation(0,amountPaid, customer,gift);
