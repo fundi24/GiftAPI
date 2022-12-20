@@ -26,21 +26,22 @@ public class CustomerAPI {
 		
 		JSONObject json = new JSONObject(data);
 		String firstName = json.getString("firstName");
-		String lastName = json.getString("firstName");
-		String dob = json.getString("dateOfBirth");
+		String lastName = json.getString("lastName");
+		System.out.println(json);
+		JSONObject jsonDob = json.getJSONObject("dateOfBirth");
+		int year = jsonDob.getInt("year");
+		int month = jsonDob.getInt("monthValue");
+		int day = jsonDob.getInt("dayOfMonth");
+		LocalDate dateOfBirth = LocalDate.of(year, month, day);
 		String username = json.getString("username");
 		String password = json.getString("password");
 		
-		if(firstName == null || lastName == null || dob.equals(null) || username == null 
+		if(firstName == null || lastName == null || username == null 
 				|| password == null) {
 			return Response
 					.status(Status.BAD_REQUEST)
 					.build();
 		}
-		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		LocalDate dateOfBirth = LocalDate.parse(dob, formatter);
-		
 		
 		Customer customer = new Customer(0,firstName, lastName, dateOfBirth, username, password);
 	
@@ -67,7 +68,6 @@ public class CustomerAPI {
 		if(customers == null) {
 			return Response.status(Status.SERVICE_UNAVAILABLE).build();
 		}
-		
 		return Response.status(Status.OK).entity(customers).build();
 	}
 	
