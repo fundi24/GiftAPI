@@ -9,7 +9,6 @@ import java.sql.Struct;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Map;
 
 import be.giftapi.javabeans.Customer;
 import oracle.jdbc.OracleTypes;
@@ -67,9 +66,6 @@ public class CustomerDAO extends DAO<Customer> {
 		String query = "{? = call fselect_customers}";
 
 		try (CallableStatement cs = this.connect.prepareCall(query)) {
-
-			Map m = this.connect.getTypeMap();
-			m.put("STUDENT03_06.TYP_TAB_CUSTOMER", Class.forName("be.giftapi.javabeans.Customer"));
 			
 			cs.registerOutParameter(1, OracleTypes.ARRAY, "TYP_TAB_CUSTOMER");
 			cs.executeQuery();
@@ -79,7 +75,7 @@ public class CustomerDAO extends DAO<Customer> {
 				Object[] data = (Object[]) arr.getArray();
 				for (Object a : data) {
 				    Struct row = (Struct) a;
-				    Object[] values = (Object[]) row.getAttributes(m);
+				    Object[] values = (Object[]) row.getAttributes();
 				    String id = String.valueOf(values[0]);
 				    int idCustomer = Integer.parseInt(id);
 				    String firstName = String.valueOf(values[1]);
@@ -96,24 +92,7 @@ public class CustomerDAO extends DAO<Customer> {
 		}
 		catch (SQLException e) {
 			System.out.println(e.getMessage());
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
+		} 
 		return customers;
 	}
 }
-
-/*
- * public boolean checkIfUsernameIsAvailable(String username) { boolean isValid
- * = true;
- * 
- * String query = "SELECT * FROM User WHERE Username='" + username + "'";
- * 
- * try { ResultSet result = this.connect
- * .createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
- * ResultSet.CONCUR_READ_ONLY).executeQuery(query); if (result.first()) {
- * isValid = false; JOptionPane.showMessageDialog(null,
- * "Username is already used !"); } } catch (SQLException e) {
- * e.printStackTrace(); } return isValid; }
- */
