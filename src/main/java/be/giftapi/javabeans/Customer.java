@@ -179,4 +179,8 @@ public class Customer implements Serializable {
 		return customerDAO.findAll();
 	}
 	
+	public static Customer login (String username, String password) {
+		return customerDAO.find(username,password);
+	}
+	
 }

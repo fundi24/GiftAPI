@@ -59,4 +59,10 @@ public class ListGiftDAO extends DAO<ListGift> {
 	    public ArrayList<ListGift> findAll() {
 	        return null;
 	    }
+
+		@Override
+		public ListGift find(String username, String password) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 }

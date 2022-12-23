@@ -20,7 +20,8 @@ public abstract class DAO<T> {
     public abstract T find(int id);
 
     public abstract ArrayList<T> findAll();
-
+    
+    public abstract T find(String username, String password);
 
 	
 }

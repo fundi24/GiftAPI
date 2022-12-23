@@ -56,4 +56,10 @@ public class NotificationDAO extends DAO<Notification> {
 	    public ArrayList<Notification> findAll() {
 	        return null;
 	    }
+
+		@Override
+		public Notification find(String username, String password) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 }

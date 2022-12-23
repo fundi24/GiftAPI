@@ -95,4 +95,29 @@ public class CustomerDAO extends DAO<Customer> {
 		} 
 		return customers;
 	}
+	
+	public Customer find(String username, String password) {
+        Customer customer = null;
+        String query = "{? = call flogin(?,?)}";
+        try (CallableStatement cs = this.connect.prepareCall(query)) {
+            cs.registerOutParameter(1, OracleTypes.STRUCT, "TYP_CUSTOMER");
+            cs.setString(2, username);
+            cs.setString(3, password);
+            cs.executeQuery();
+            Object data = (Object) cs.getObject(1);
+            Struct row = (Struct)data;
+            Object[] values = (Object[]) row.getAttributes();
+            String id = String.valueOf(values[0]);
+            int idCustomer = Integer.parseInt(id);
+            String firstName = String.valueOf(values[1]);
+            String lastName = String.valueOf(values[2]);
+            String DOB = String.valueOf(values[3]);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss.n");
+            LocalDate dateOfBirth = LocalDate.parse(DOB, formatter);
+            customer = new Customer(idCustomer, firstName, lastName, dateOfBirth, username, password);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return customer;
+    }
 }

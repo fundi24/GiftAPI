@@ -61,6 +61,37 @@ public class CustomerAPI {
 		
 	}
 	
+	@POST
+	@Path("/login")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response loginCustomer(String data) {
+		
+		JSONObject json = new JSONObject(data);
+		String username = json.getString("username");
+		String password = json.getString("password");
+		
+		if(username == null || password == null) {
+			return Response
+					.status(Status.BAD_REQUEST)
+					.build();
+		}
+		
+		Customer customer = Customer.login(username, password);
+		
+		if(customer == null) {
+			return Response
+					.status(Status.UNAUTHORIZED)
+					.build();
+		}
+		else {
+			return Response
+					.status(Status.OK)
+					.header("Location", "/GiftAPI/api/customer/" + customer.getIdCustomer())
+					.build();
+		}
+		
+	}
+	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCustomers() {
