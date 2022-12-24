@@ -129,8 +129,12 @@ public class CustomerDAO extends DAO<Customer> {
             Object[] values = (Object[]) row.getAttributes();
             String id = String.valueOf(values[0]);
             int idCustomer = Integer.parseInt(id);
-            customer = new Customer();
-            customer.setIdCustomer(idCustomer);
+            String firstName = String.valueOf(values[1]);
+            String lastName = String.valueOf(values[2]);
+            String DOB = String.valueOf(values[3]);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss.n");
+            LocalDate dateOfBirth = LocalDate.parse(DOB, formatter);
+		    customer = new Customer(idCustomer, firstName, lastName, dateOfBirth, username, password);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
