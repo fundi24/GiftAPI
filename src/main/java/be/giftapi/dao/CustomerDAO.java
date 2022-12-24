@@ -9,7 +9,6 @@ import java.sql.Struct;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Map;
 
 import be.giftapi.javabeans.Customer;
 import oracle.jdbc.OracleTypes;
@@ -57,7 +56,27 @@ public class CustomerDAO extends DAO<Customer> {
 
 	@Override
 	public Customer find(int id) {
-		return null;
+		 Customer customer = null;
+	        String query = "{? = call fselect_customer(?)}";
+	        try (CallableStatement cs = this.connect.prepareCall(query)) {
+	            cs.registerOutParameter(1, OracleTypes.STRUCT, "TYP_CUSTOMER");
+	            cs.setInt(2, id);
+	            cs.executeQuery();
+	            Object data = (Object) cs.getObject(1);
+	            Struct row = (Struct)data;
+	            Object[] values = (Object[]) row.getAttributes();
+	            String firstName = String.valueOf(values[1]);
+	            String lastName = String.valueOf(values[2]);
+	            String DOB = String.valueOf(values[3]);
+	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss.n");
+	            LocalDate dateOfBirth = LocalDate.parse(DOB, formatter);
+	            String username = String.valueOf(values[4]);
+	            String password = String.valueOf(values[5]);
+	            customer = new Customer(id, firstName, lastName, dateOfBirth, username, password);
+	        } catch (SQLException e) {
+	            System.out.println(e.getMessage());
+	        }
+	        return customer;
 	}
 
 	@Override
@@ -67,9 +86,6 @@ public class CustomerDAO extends DAO<Customer> {
 		String query = "{? = call fselect_customers}";
 
 		try (CallableStatement cs = this.connect.prepareCall(query)) {
-
-			Map m = this.connect.getTypeMap();
-			m.put("STUDENT03_06.TYP_TAB_CUSTOMER", Class.forName("be.giftapi.javabeans.Customer"));
 			
 			cs.registerOutParameter(1, OracleTypes.ARRAY, "TYP_TAB_CUSTOMER");
 			cs.executeQuery();
@@ -79,7 +95,7 @@ public class CustomerDAO extends DAO<Customer> {
 				Object[] data = (Object[]) arr.getArray();
 				for (Object a : data) {
 				    Struct row = (Struct) a;
-				    Object[] values = (Object[]) row.getAttributes(m);
+				    Object[] values = (Object[]) row.getAttributes();
 				    String id = String.valueOf(values[0]);
 				    int idCustomer = Integer.parseInt(id);
 				    String firstName = String.valueOf(values[1]);
@@ -96,24 +112,28 @@ public class CustomerDAO extends DAO<Customer> {
 		}
 		catch (SQLException e) {
 			System.out.println(e.getMessage());
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
+		} 
 		return customers;
 	}
+	
+	public Customer find(String username, String password) {
+        Customer customer = null;
+        String query = "{? = call flogin(?,?)}";
+        try (CallableStatement cs = this.connect.prepareCall(query)) {
+            cs.registerOutParameter(1, OracleTypes.STRUCT, "TYP_CUSTOMER");
+            cs.setString(2, username);
+            cs.setString(3, password);
+            cs.executeQuery();
+            Object data = (Object) cs.getObject(1);
+            Struct row = (Struct)data;
+            Object[] values = (Object[]) row.getAttributes();
+            String id = String.valueOf(values[0]);
+            int idCustomer = Integer.parseInt(id);
+            customer = new Customer();
+            customer.setIdCustomer(idCustomer);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return customer;
+    }
 }
-
-/*
- * public boolean checkIfUsernameIsAvailable(String username) { boolean isValid
- * = true;
- * 
- * String query = "SELECT * FROM User WHERE Username='" + username + "'";
- * 
- * try { ResultSet result = this.connect
- * .createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
- * ResultSet.CONCUR_READ_ONLY).executeQuery(query); if (result.first()) {
- * isValid = false; JOptionPane.showMessageDialog(null,
- * "Username is already used !"); } } catch (SQLException e) {
- * e.printStackTrace(); } return isValid; }
- */

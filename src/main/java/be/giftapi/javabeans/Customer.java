@@ -1,18 +1,14 @@
 package be.giftapi.javabeans;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.sql.SQLData;
-import java.sql.SQLException;
-import java.sql.SQLInput;
-import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 import be.giftapi.dao.AbstractDAOFactory;
+import be.giftapi.dao.CustomerDAO;
 import be.giftapi.dao.DAO;
 
-public class Customer implements Serializable, SQLData {
+public class Customer implements Serializable {
 	
 
 	private static final long serialVersionUID = 2411323456692016479L;
@@ -29,9 +25,7 @@ public class Customer implements Serializable, SQLData {
 	private ArrayList<Participation> participations;
 	private ArrayList<ListGift> myListGifts;
 	private ArrayList<ListGift> sharedListGifts;
-	private ArrayList<Notification> notifications;
-	private String sql_type;
-	
+	private ArrayList<Notification> notifications;	
 	
 	
 	public Customer()
@@ -45,7 +39,6 @@ public class Customer implements Serializable, SQLData {
 
 	public Customer(int idCustomer, String firstName, String lastName, LocalDate dateOfBirth, String username,
 			String password) {
-		super();
 		this.idCustomer = idCustomer;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -186,44 +179,10 @@ public class Customer implements Serializable, SQLData {
 	public static ArrayList<Customer> getCustomers(){
 		return customerDAO.findAll();
 	}
-
-
-	@Override
-	public String getSQLTypeName() throws SQLException {
-		return sql_type;
-	}
-
-
-	@Override
-	public void readSQL(SQLInput stream, String typeName) throws SQLException {
-		sql_type = typeName;
-		idCustomer = stream.readInt();
-		firstName = stream.readString();
-		lastName = stream.readString();
-		dateOfBirth = stream.readDate().toLocalDate();
-		username = stream.readString();
-		password = stream.readString();
-	}
-
-
-	@Override
-	public void writeSQL(SQLOutput stream) throws SQLException {
-		stream.writeInt(idCustomer);
-		stream.writeString(firstName);
-		stream.writeString(lastName);
-		stream.writeDate(Date.valueOf(dateOfBirth));
-		stream.writeString(username);
-		stream.writeString(password);
-	}
-
-
-	@Override
-	public String toString() {
-		return "Customer [idCustomer=" + idCustomer + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", dateOfBirth=" + dateOfBirth + ", username=" + username + ", password=" + password
-				+ ", participations=" + participations + ", myListGifts=" + myListGifts + ", sharedListGifts="
-				+ sharedListGifts + ", notifications=" + notifications + ", sql_type=" + sql_type + "]";
-	}
 	
+	public static Customer login (String username, String password) {
+		CustomerDAO customerdao = (CustomerDAO) adf.getCustomerDAO();
+		return customerdao.find(username, password);
+	}
 	
 }
