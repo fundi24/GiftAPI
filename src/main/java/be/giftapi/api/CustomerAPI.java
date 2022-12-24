@@ -64,9 +64,9 @@ public class CustomerAPI {
 	@POST
 	@Path("/login")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response loginCustomer(String data) {
 		
-		System.out.println(data);
 		JSONObject json = new JSONObject(data);
 		String username = json.getString("username");
 		String password = json.getString("password");
@@ -87,7 +87,7 @@ public class CustomerAPI {
 		else {
 			return Response
 					.status(Status.OK)
-					.header("Id", customer.getIdCustomer())
+					.entity(customer)
 					.build();
 		}
 		
