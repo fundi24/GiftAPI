@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import be.giftapi.dao.AbstractDAOFactory;
+import be.giftapi.dao.CustomerDAO;
 import be.giftapi.dao.DAO;
 
 public class Customer implements Serializable {
@@ -177,6 +178,11 @@ public class Customer implements Serializable {
 	
 	public static ArrayList<Customer> getCustomers(){
 		return customerDAO.findAll();
+	}
+	
+	public static Customer login (String username, String password) {
+		CustomerDAO customerdao = (CustomerDAO) adf.getCustomerDAO();
+		return customerdao.find(username, password);
 	}
 	
 }
