@@ -8,6 +8,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -27,7 +28,6 @@ public class CustomerAPI {
 		JSONObject json = new JSONObject(data);
 		String firstName = json.getString("firstName");
 		String lastName = json.getString("lastName");
-		System.out.println(json);
 		JSONObject jsonDob = json.getJSONObject("dateOfBirth");
 		int year = jsonDob.getInt("year");
 		int month = jsonDob.getInt("monthValue");
@@ -66,6 +66,7 @@ public class CustomerAPI {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response loginCustomer(String data) {
 		
+		System.out.println(data);
 		JSONObject json = new JSONObject(data);
 		String username = json.getString("username");
 		String password = json.getString("password");
@@ -86,7 +87,7 @@ public class CustomerAPI {
 		else {
 			return Response
 					.status(Status.OK)
-					.header("Location", "/GiftAPI/api/customer/" + customer.getIdCustomer())
+					.header("Id", customer.getIdCustomer())
 					.build();
 		}
 		
@@ -100,6 +101,17 @@ public class CustomerAPI {
 			return Response.status(Status.SERVICE_UNAVAILABLE).build();
 		}
 		return Response.status(Status.OK).entity(customers).build();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("{id}")
+	public Response getCustomer(@PathParam("id") int id) {
+		Customer customer = Customer.getCustomer(id);
+		if(customer == null) {
+			return Response.status(Status.SERVICE_UNAVAILABLE).build();
+		}
+		return Response.status(Status.OK).entity(customer).build();
 	}
 	
 }

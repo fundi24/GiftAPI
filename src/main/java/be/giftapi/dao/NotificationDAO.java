@@ -57,9 +57,4 @@ public class NotificationDAO extends DAO<Notification> {
 	        return null;
 	    }
 
-		@Override
-		public Notification find(String username, String password) {
-			// TODO Auto-generated method stub
-			return null;
-		}
 }

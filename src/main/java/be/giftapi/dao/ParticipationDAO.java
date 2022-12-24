@@ -56,9 +56,4 @@ public class ParticipationDAO extends DAO<Participation> {
         return null;
     }
 
-	@Override
-	public Participation find(String username, String password) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

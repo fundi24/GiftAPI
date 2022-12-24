@@ -56,7 +56,27 @@ public class CustomerDAO extends DAO<Customer> {
 
 	@Override
 	public Customer find(int id) {
-		return null;
+		 Customer customer = null;
+	        String query = "{? = call fselect_customer(?)}";
+	        try (CallableStatement cs = this.connect.prepareCall(query)) {
+	            cs.registerOutParameter(1, OracleTypes.STRUCT, "TYP_CUSTOMER");
+	            cs.setInt(2, id);
+	            cs.executeQuery();
+	            Object data = (Object) cs.getObject(1);
+	            Struct row = (Struct)data;
+	            Object[] values = (Object[]) row.getAttributes();
+	            String firstName = String.valueOf(values[1]);
+	            String lastName = String.valueOf(values[2]);
+	            String DOB = String.valueOf(values[3]);
+	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss.n");
+	            LocalDate dateOfBirth = LocalDate.parse(DOB, formatter);
+	            String username = String.valueOf(values[4]);
+	            String password = String.valueOf(values[5]);
+	            customer = new Customer(id, firstName, lastName, dateOfBirth, username, password);
+	        } catch (SQLException e) {
+	            System.out.println(e.getMessage());
+	        }
+	        return customer;
 	}
 
 	@Override
@@ -109,12 +129,8 @@ public class CustomerDAO extends DAO<Customer> {
             Object[] values = (Object[]) row.getAttributes();
             String id = String.valueOf(values[0]);
             int idCustomer = Integer.parseInt(id);
-            String firstName = String.valueOf(values[1]);
-            String lastName = String.valueOf(values[2]);
-            String DOB = String.valueOf(values[3]);
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss.n");
-            LocalDate dateOfBirth = LocalDate.parse(DOB, formatter);
-            customer = new Customer(idCustomer, firstName, lastName, dateOfBirth, username, password);
+            customer = new Customer();
+            customer.setIdCustomer(idCustomer);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
