@@ -57,4 +57,10 @@ public class NotificationDAO extends DAO<Notification> {
 	        return null;
 	    }
 
+		@Override
+		public ArrayList<Notification> findAll(int id) {
+			
+			return null;
+		}
+
 }

@@ -23,7 +23,6 @@ public class Notification implements Serializable{
     }
     
     public Notification(int idNotification, String message, boolean read, Customer customer) {
-		super();
 		this.idNotification = idNotification;
 		this.message = message;
 		this.read = read;

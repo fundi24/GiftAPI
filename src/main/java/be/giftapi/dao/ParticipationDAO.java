@@ -56,4 +56,10 @@ public class ParticipationDAO extends DAO<Participation> {
         return null;
     }
 
+	@Override
+	public ArrayList<Participation> findAll(int id) {
+		
+		return null;
+	}
+
 }

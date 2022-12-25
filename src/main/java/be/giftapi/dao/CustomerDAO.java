@@ -140,4 +140,10 @@ public class CustomerDAO extends DAO<Customer> {
         }
         return customer;
     }
+
+	@Override
+	public ArrayList<Customer> findAll(int id) {
+		
+		return null;
+	}
 }
