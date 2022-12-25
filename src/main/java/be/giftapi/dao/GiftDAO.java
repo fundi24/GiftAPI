@@ -63,4 +63,10 @@ public class GiftDAO extends DAO<Gift>{
 	        return null;
 	    }
 
+		@Override
+		public ArrayList<Gift> findAll(int id) {
+			
+			return null;
+		}
+
 }
