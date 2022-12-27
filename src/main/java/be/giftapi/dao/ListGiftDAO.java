@@ -89,7 +89,6 @@ public class ListGiftDAO extends DAO<ListGift> {
 					    String id = String.valueOf(values[0]);
 					    int idListGift = Integer.parseInt(id);
 					    String name = String.valueOf(values[1]);
-					    System.out.println("name listgift" + name);
 					    String strDeadline = String.valueOf(values[2]);
 					    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss.n");
 						LocalDate deadline= LocalDate.parse(strDeadline, formatter);

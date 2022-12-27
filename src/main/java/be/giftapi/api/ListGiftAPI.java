@@ -27,22 +27,24 @@ public class ListGiftAPI {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response insertListGift(String data) {
 		JSONObject json = new JSONObject(data);
+		System.out.println("api " + data);
 		String name = json.getString("name");
-		String dl = json.getString("deadline");
+		JSONObject jsondl = json.getJSONObject("deadline");
+		int year = jsondl.getInt("year");
+		int month = jsondl.getInt("monthValue");
+		int day = jsondl.getInt("dayOfMonth");
+		LocalDate deadline = LocalDate.of(year, month, day);
 		boolean status = json.getBoolean("status");
 		String theme = json.getString("theme");
-		int idOwner = json.getInt("idOwner");
+		JSONObject getIdOwner = json.getJSONObject("owner");
+		int idOwner = getIdOwner.getInt("idCustomer");
 		
-		if(name == null || dl == null || theme == null || idOwner == 0) {
+		if(name == null || theme == null || idOwner == 0) {
 			return Response
 					.status(Status.BAD_REQUEST)
 					.build();
 		}
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		LocalDate deadline = LocalDate.parse(dl, formatter);
-		
-		//Customer owner = Customer.getCustomer(idOwner);
 		Customer owner = new Customer();
 		owner.setIdCustomer(idOwner);
 		
