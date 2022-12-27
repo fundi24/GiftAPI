@@ -27,7 +27,6 @@ public class ListGiftAPI {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response insertListGift(String data) {
 		JSONObject json = new JSONObject(data);
-		System.out.println("api " + data);
 		String name = json.getString("name");
 		JSONObject jsondl = json.getJSONObject("deadline");
 		int year = jsondl.getInt("year");
