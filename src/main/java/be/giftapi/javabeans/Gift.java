@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import be.giftapi.dao.AbstractDAOFactory;
 import be.giftapi.dao.DAO;
 
+
 public class Gift implements Serializable{
 	
 	private static final long serialVersionUID = -375971532475389184L;
@@ -17,9 +18,9 @@ public class Gift implements Serializable{
 	private int idGift;
 	private String name;
 	private String description;
-	private Image picture;
 	private double price;
 	private int priority;
+	private Image picture;
 	private boolean booked;
 	private boolean multiplePayment;
 	private String linkToWebsite;
@@ -31,9 +32,9 @@ public class Gift implements Serializable{
 		participations = new ArrayList<>();
 	}
 	
-
 	public Gift(int idGift, String name, String description, double price, int priority, boolean booked,
-			boolean multiplePayment, String linkToWebsite, ListGift listGift) {
+			boolean multiplePayment, String linkToWebstite, ListGift listGift) {
+		
 		this.idGift = idGift;
 		this.name = name;
 		this.description = description;
@@ -41,12 +42,12 @@ public class Gift implements Serializable{
 		this.priority = priority;
 		this.booked = booked;
 		this.multiplePayment = multiplePayment;
-		this.linkToWebsite = linkToWebsite;
+		this.linkToWebsite = linkToWebstite;
 		this.listGift = listGift;
 		participations = new ArrayList<>();
 	}
-
-
+	
+	
 	//Getters and Setters
 
 	public int getIdGift() {
@@ -73,13 +74,6 @@ public class Gift implements Serializable{
 		this.description = description;
 	}
 
-	public Image getPicture() {
-		return picture;
-	}
-
-	public void setPicture(Image picture) {
-		this.picture = picture;
-	}
 
 	public double getPrice() {
 		return price;
@@ -97,6 +91,14 @@ public class Gift implements Serializable{
 		this.priority = priority;
 	}
 
+	public Image getPicture() {
+		return picture;
+	}
+
+	public void setPicture(Image picture) {
+		this.picture = picture;
+	}
+	
 	public boolean isBooked() {
 		return booked;
 	}
@@ -154,5 +156,9 @@ public class Gift implements Serializable{
 	
 	public static Gift getGift(int id) {
 		return giftDAO.find(id);
+	}
+	
+	public static ArrayList<Gift> getGiftsFromListGift(int id) {
+		return giftDAO.findAll(id);
 	}
 }

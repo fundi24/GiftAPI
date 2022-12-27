@@ -67,8 +67,8 @@ public class ListGiftAPI {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("customer/{id}")
-	public Response getListGiftsFromCustomer(@PathParam("id") int id) {
-		ArrayList<ListGift> listGifts = ListGift.getListGiftFromCustomer(id);
+	public Response getListGiftsFromCustomer(@PathParam("id") int idCustomer) {
+		ArrayList<ListGift> listGifts = ListGift.getListGiftFromCustomer(idCustomer);
 		
 		if(listGifts == null) {
 			return Response.status(Status.SERVICE_UNAVAILABLE).build();

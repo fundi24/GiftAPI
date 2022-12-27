@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import be.giftapi.dao.AbstractDAOFactory;
 import be.giftapi.dao.DAO;
 
+
 public class ListGift implements Serializable {
 	
 	private static final long serialVersionUID = 99181030694279507L;
@@ -141,4 +142,6 @@ public class ListGift implements Serializable {
 	public static ArrayList<ListGift> getListGiftFromCustomer(int id){
 		return listGiftDAO.findAll(id);
 	}
+	
+	
 }
