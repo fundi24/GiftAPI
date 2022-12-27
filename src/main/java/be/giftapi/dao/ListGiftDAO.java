@@ -89,13 +89,11 @@ public class ListGiftDAO extends DAO<ListGift> {
 					    String id = String.valueOf(values[0]);
 					    int idListGift = Integer.parseInt(id);
 					    String name = String.valueOf(values[1]);
-					    System.out.println("name listgift" + name);
 					    String strDeadline = String.valueOf(values[2]);
 					    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss.n");
 						LocalDate deadline= LocalDate.parse(strDeadline, formatter);
-					    String strStatus = String.valueOf(values[3]);
-					    boolean status;
-					    status = Integer.parseInt(strStatus) == 1 ? true : false;
+					    int intStatus = Integer.parseInt(String.valueOf(values[3]));
+					    boolean status = intStatus == 1 ? true : false;
 						String theme = String.valueOf(values[4]);
 							    
 					    ListGift listgift = new ListGift(idListGift, name, deadline, status, theme, null);
