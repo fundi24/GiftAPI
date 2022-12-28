@@ -20,7 +20,7 @@ public class Gift implements Serializable{
 	private String description;
 	private double price;
 	private int priority;
-	private Image picture;
+	private String picture;
 	private boolean booked;
 	private boolean multiplePayment;
 	private String linkToWebsite;
@@ -91,11 +91,11 @@ public class Gift implements Serializable{
 		this.priority = priority;
 	}
 
-	public Image getPicture() {
+	public String getPicture() {
 		return picture;
 	}
 
-	public void setPicture(Image picture) {
+	public void setPicture(String picture) {
 		this.picture = picture;
 	}
 	
@@ -161,4 +161,14 @@ public class Gift implements Serializable{
 	public static ArrayList<Gift> getGiftsFromListGift(int id) {
 		return giftDAO.findAll(id);
 	}
+
+	@Override
+	public String toString() {
+		return "Gift [idGift=" + idGift + ", name=" + name + ", description=" + description + ", price=" + price
+				+ ", priority=" + priority + ", picture=" + picture + ", booked=" + booked + ", multiplePayment="
+				+ multiplePayment + ", linkToWebsite=" + linkToWebsite + ", listGift=" + listGift + ", participations="
+				+ participations + "]";
+	}
+	
+	
 }
