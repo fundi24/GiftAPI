@@ -1,6 +1,8 @@
 package be.giftapi.dao;
 
 import java.awt.Image;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.sql.Array;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -26,7 +28,10 @@ public class GiftDAO extends DAO<Gift>{
 	    	boolean success = false;
 	    	
 	        String query = "{call insert_gift(?,?,?,?,?,?,?,?,?)}";
-
+	       
+	        
+	        byte[] byteArray = obj.getPicture().getBytes();
+	        InputStream pictureStream = new ByteArrayInputStream(byteArray);
 	        
 	        try(CallableStatement cs= this.connect.prepareCall(query)) {
 	              
@@ -34,7 +39,7 @@ public class GiftDAO extends DAO<Gift>{
 	        	cs.setString(2, obj.getDescription());
 	        	cs.setDouble(3, obj.getPrice());
 	        	cs.setInt(4, obj.getPriority());
-	        	//cs.setString(5, obj.getPicture());
+	        	cs.setBinaryStream(5, pictureStream);
 	        	cs.setBoolean(6, obj.isBooked());
 	        	cs.setBoolean(7, obj.isMultiplePayment());
 	        	cs.setString(8, obj.getLinkToWebsite());

@@ -24,19 +24,20 @@ public class GiftAPI {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response insertGift(String data) {
+		System.out.println(data);
 		JSONObject json = new JSONObject(data);
 		String name = json.getString("name");
 		String description = json.getString("description");
-		//Image picture = json.getString("")
+		String picture = json.getString("picture");
 		double price = json.getDouble("price");
 		int priority = json.getInt("priority");
 		boolean booked = json.getBoolean("booked");
 		boolean multiplePayment = json.getBoolean("multiplePayment");
 		String linkToWebsite = json.getString("linkToWebsite");
-		int idListGift = json.getInt("idListGift");
+		JSONObject listGiftJson = json.getJSONObject("listGift");
+		int idListGift = listGiftJson.getInt("idListGift");
 		
-		if (name == null || description == null || price == 0.0 || priority == 0 ||
-				linkToWebsite == null || idListGift == 0 ) {
+		if (name == null || description == null || price == 0.0 || priority == 0 || idListGift == 0 ) {
 			return Response
 					.status(Status.BAD_REQUEST)
 					.build();
@@ -48,6 +49,8 @@ public class GiftAPI {
 		listGift.setIdListGift(idListGift);
 		
 		Gift gift = new Gift(0, name, description, price, priority,booked, multiplePayment, linkToWebsite, listGift);
+		gift.setPicture(picture);
+		
 		boolean success = gift.insert();
 		if(!success) {
 			
