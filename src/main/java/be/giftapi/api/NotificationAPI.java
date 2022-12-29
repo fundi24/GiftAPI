@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -66,6 +67,22 @@ public class NotificationAPI {
 		
 		return Response.status(Status.OK).entity(notification).build();
 
+	}
+	
+	@PUT
+	@Path("{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateNotification(@PathParam("id") int id, String data) {
+		//JSONObject json = new JSONObject(data);
+	    Notification notification = new Notification();
+	    notification.setIdNotification(id);
+		boolean success = notification.update();
+		if(!success) {
+			return Response.status(Status.SERVICE_UNAVAILABLE).build();
+		}
+		else {
+			return Response.status(Status.NO_CONTENT).build();
+		}
 	}
 
 }

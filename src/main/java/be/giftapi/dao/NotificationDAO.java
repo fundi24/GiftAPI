@@ -50,7 +50,22 @@ public class NotificationDAO extends DAO<Notification> {
 
 	    @Override
 	    public boolean update(Notification obj) {
-	        return false;
+	    	boolean success = false;
+	    	
+	    	String query = "{call update_notification(?)}";
+
+	        
+	        try(CallableStatement cs= this.connect.prepareCall(query)) {
+	              
+	        	cs.setInt(1, obj.getIdNotification());
+	        	cs.executeUpdate();
+	               
+	        	success = true;
+	         } catch (SQLException e) {
+	                System.out.println(e.getMessage());
+	            }
+	       
+	        return success;
 	    }
 
 	    @Override

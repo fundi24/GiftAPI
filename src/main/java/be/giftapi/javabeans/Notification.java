@@ -74,4 +74,16 @@ public class Notification implements Serializable{
     public static ArrayList<Notification> getNotificationFromCustomer (int idCustomer){
     	return notificationDAO.findAll(idCustomer);
     }
+    
+    public boolean update() {
+    	return notificationDAO.update(this);
+    }
+
+	@Override
+	public String toString() {
+		return "Notification [idNotification=" + idNotification + ", message=" + message + ", read=" + read
+				+ ", customer=" + customer + "]";
+	}
+    
+    
 }
