@@ -1,12 +1,18 @@
 package be.giftapi.dao;
 
+import java.sql.Array;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Struct;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import be.giftapi.javabeans.ListGift;
 import be.giftapi.javabeans.Notification;
+import oracle.jdbc.OracleTypes;
 
 public class NotificationDAO extends DAO<Notification> {
 	
@@ -58,9 +64,40 @@ public class NotificationDAO extends DAO<Notification> {
 	    }
 
 		@Override
-		public ArrayList<Notification> findAll(int id) {
+		public ArrayList<Notification> findAll(int idCustomer) {
+			ArrayList<Notification> notifications = new ArrayList<>();
 			
-			return null;
+			String query = "{? = call fselect_notifications_from_customer(?)}";
+
+			try (CallableStatement cs = this.connect.prepareCall(query)) {
+				
+				cs.registerOutParameter(1, OracleTypes.ARRAY, "TYP_TAB_NOTIFICATION");
+				cs.setInt(2, idCustomer);
+				cs.executeQuery();
+				
+				Array arr = cs.getArray(1);
+				if (arr != null) {
+					Object[] data = (Object[]) arr.getArray();
+					
+					for (Object a : data) {
+					    Struct row = (Struct) a;
+					    Object[] values = (Object[]) row.getAttributes();
+					    
+					    String id = String.valueOf(values[0]);
+					    int idNotification = Integer.parseInt(id);
+					    String message = String.valueOf(values[1]);
+					    int intRead = Integer.parseInt(String.valueOf(values[2]));
+					    boolean read = intRead == 1 ? true : false;
+							    
+					    Notification notification = new Notification(idNotification, message, read, null);
+					    notifications.add(notification);
+					}
+				}
+			}
+			catch (SQLException e) {
+				System.out.println(e.getMessage());
+			} 
+			return notifications;
 		}
 
 }
