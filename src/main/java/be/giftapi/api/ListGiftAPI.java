@@ -76,4 +76,17 @@ public class ListGiftAPI {
 		return Response.status(Status.OK).entity(listGifts).build();
 	}
 	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("invitation/{id}")
+	public Response getInvitationsFromListGift(@PathParam("id") int idListGift) {
+		ArrayList<Customer> customers = ListGift.getInvitationsFromListGift(idListGift);
+		
+		if(customers == null) {
+			return Response.status(Status.SERVICE_UNAVAILABLE).build();
+		}
+		
+		return Response.status(Status.OK).entity(customers).build();
+	}
+	
 }

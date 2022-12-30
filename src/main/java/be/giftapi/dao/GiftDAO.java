@@ -100,7 +100,7 @@ public class GiftDAO extends DAO<Gift>{
 					    String description = String.valueOf(values[2]);
 					    double price = Double.valueOf((String.valueOf(values[3])));
 					    int priority = Integer.parseInt(String.valueOf(values[4]));
-					    String strPicture = String.valueOf(values[5]);
+					    String picture = String.valueOf(values[5]);
 					    int intBooked = Integer.parseInt(String.valueOf(values[6]));
 					    boolean booked = intBooked == 1 ? true : false;
 					    int intMultiplePayment = Integer.parseInt(String.valueOf(values[7]));
@@ -108,7 +108,7 @@ public class GiftDAO extends DAO<Gift>{
 					    String linkToWebsite = String.valueOf(values[8]);
 					    
 							    
-					    Gift gift = new Gift(idGift, name, description, price, priority, booked, multiplePayment, linkToWebsite, null);
+					    Gift gift = new Gift(idGift, name, description, price, priority, picture, booked, multiplePayment, linkToWebsite, null);
 					    gifts.add(gift);
 					}
 				}
