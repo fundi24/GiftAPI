@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import be.giftapi.dao.AbstractDAOFactory;
 import be.giftapi.dao.DAO;
+import be.giftapi.dao.ListGiftDAO;
 
 
 public class ListGift implements Serializable {
@@ -141,6 +142,11 @@ public class ListGift implements Serializable {
 
 		public static ArrayList<ListGift> getListGiftFromCustomer(int id){
 			return listGiftDAO.findAll(id);
+		}
+		
+		public static ArrayList<Customer> getInvitationsFromListGift(int id){
+			ListGiftDAO listgiftDao = (ListGiftDAO) adf.getListGiftDAO();
+			return listgiftDao.getInvitationsFromListGift(id);	
 		}
 		
 		

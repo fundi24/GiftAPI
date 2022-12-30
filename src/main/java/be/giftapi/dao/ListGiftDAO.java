@@ -107,4 +107,43 @@ public class ListGiftDAO extends DAO<ListGift> {
 			return listgifts;
 		}
 
+		public ArrayList<Customer> getInvitationsFromListGift(int idListGift){
+			ArrayList<Customer> invitations = new ArrayList<>();
+			
+			String query = "{? = call fselect_invitations_from_listgift(?)}";
+			try (CallableStatement cs = this.connect.prepareCall(query)) {
+				cs.registerOutParameter(1, OracleTypes.ARRAY, "TYP_TAB_INVITATION");
+				cs.setInt(2, idListGift);
+				cs.executeQuery();
+				
+				Array arr = cs.getArray(1);
+				if (arr != null) {
+					Object[] data = (Object[]) arr.getArray();
+					for (Object a : data) {
+					    Struct row = (Struct) a;
+					    Object[] values = (Object[]) row.getAttributes();
+					    String idInvit= String.valueOf(values[0]);
+					    int idInvitation= Integer.parseInt(idInvit);
+					    String idCust = String.valueOf(values[1]);
+					    int idCustomer = Integer.parseInt(idCust);
+					    String firstName = String.valueOf(values[2]);
+					    String lastName =  String.valueOf(values[3]);
+					    String DOB = String.valueOf(values[4]);
+			            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss.n");
+			            LocalDate dateOfBirth = LocalDate.parse(DOB, formatter);
+			            String username = String.valueOf(values[5]);
+			            String password = String.valueOf(values[6]);
+					    
+					    Customer customer = new Customer(idCustomer, firstName, lastName, dateOfBirth, username, password);
+					    invitations.add(customer);
+					   
+					}
+			}
+			}catch (SQLException e) {
+				System.out.println(e.getMessage());
+			} 
+			
+			return invitations;
+			
+		}
 }

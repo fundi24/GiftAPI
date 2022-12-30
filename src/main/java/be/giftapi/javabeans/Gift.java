@@ -32,7 +32,7 @@ public class Gift implements Serializable{
 		participations = new ArrayList<>();
 	}
 	
-	public Gift(int idGift, String name, String description, double price, int priority, boolean booked,
+	public Gift(int idGift, String name, String description, double price, int priority, String picture , boolean booked,
 			boolean multiplePayment, String linkToWebstite, ListGift listGift) {
 		
 		this.idGift = idGift;
@@ -40,6 +40,7 @@ public class Gift implements Serializable{
 		this.description = description;
 		this.price = price;
 		this.priority = priority;
+		this.picture = picture;
 		this.booked = booked;
 		this.multiplePayment = multiplePayment;
 		this.linkToWebsite = linkToWebstite;
