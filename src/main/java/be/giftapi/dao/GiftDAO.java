@@ -62,7 +62,32 @@ public class GiftDAO extends DAO<Gift>{
 
 	    @Override
 	    public boolean update(Gift obj) {
-	        return false;
+	    	boolean success = false;
+	    	
+	        String query = "{call update_gift(?,?,?,?,?,?)}";
+
+	        byte[] byteArray = obj.getPicture().getBytes();
+	        InputStream pictureStream = new ByteArrayInputStream(byteArray);
+	        
+	        try(CallableStatement cs= this.connect.prepareCall(query)) {
+	              
+	        	cs.setInt(1, obj.getIdGift());
+	        	cs.setString(2, obj.getName());
+	        	cs.setString(3, obj.getDescription());
+	        	cs.setDouble(4, obj.getPrice());
+	        	cs.setBinaryStream(5, pictureStream);
+	        	cs.setString(6, obj.getLinkToWebsite());
+	        	
+	        
+	        	cs.executeUpdate();
+	               
+	            success = true;
+	         } catch (SQLException e) {
+	                System.out.println(e.getMessage());
+	            }
+	       
+	        
+	        return success;
 	    }
 
 	    @Override
