@@ -1,6 +1,7 @@
 package be.giftapi.javabeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import be.giftapi.dao.AbstractDAOFactory;
 import be.giftapi.dao.DAO;
@@ -69,4 +70,20 @@ public class Notification implements Serializable{
     public boolean insert() {
 		return notificationDAO.create(this);
     }
+    
+    public static ArrayList<Notification> getNotificationFromCustomer (int idCustomer){
+    	return notificationDAO.findAll(idCustomer);
+    }
+    
+    public boolean update() {
+    	return notificationDAO.update(this);
+    }
+
+	@Override
+	public String toString() {
+		return "Notification [idNotification=" + idNotification + ", message=" + message + ", read=" + read
+				+ ", customer=" + customer + "]";
+	}
+    
+    
 }
