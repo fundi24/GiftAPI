@@ -149,6 +149,10 @@ public class ListGift implements Serializable {
 			return listgiftDao.getInvitationsFromListGift(id);	
 		}
 		
+		public boolean update() {
+			return listGiftDAO.update(this);
+		}
+		
 		
 	
 }
