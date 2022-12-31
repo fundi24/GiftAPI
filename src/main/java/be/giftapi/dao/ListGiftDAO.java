@@ -53,7 +53,23 @@ public class ListGiftDAO extends DAO<ListGift> {
 
 	    @Override
 	    public boolean update(ListGift obj) {
-	        return false;
+	    	boolean success = false;
+	    	
+	    	String query = "{call update_listgift(?,?)}";
+
+	        
+	        try(CallableStatement cs= this.connect.prepareCall(query)) {
+	              
+	        	cs.setInt(1, obj.getIdListGift());
+	        	cs.setBoolean(2, obj.isStatus());
+	        	cs.executeUpdate();
+	               
+	        	success = true;
+	         } catch (SQLException e) {
+	                System.out.println(e.getMessage());
+	            }
+	       
+	        return success;
 	    }
 
 	    @Override
