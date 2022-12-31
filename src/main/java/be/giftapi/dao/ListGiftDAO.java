@@ -55,13 +55,14 @@ public class ListGiftDAO extends DAO<ListGift> {
 	    public boolean update(ListGift obj) {
 	    	boolean success = false;
 	    	
-	    	String query = "{call update_listgift(?,?)}";
+	    	String query = "{call update_listgift(?,?,?)}";
 
 	        
 	        try(CallableStatement cs= this.connect.prepareCall(query)) {
 	              
 	        	cs.setInt(1, obj.getIdListGift());
 	        	cs.setBoolean(2, obj.isStatus());
+	        	cs.setDate(3, Date.valueOf(obj.getDeadline()));
 	        	cs.executeUpdate();
 	               
 	        	success = true;
