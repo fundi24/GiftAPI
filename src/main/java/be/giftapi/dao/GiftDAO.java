@@ -32,7 +32,7 @@ public class GiftDAO extends DAO<Gift> {
 
 		String query = "{call insert_gift(?,?,?,?,?,?,?,?,?)}";
 
-		byte[] byteArray = obj.getPicture().getBytes();
+		byte[] byteArray =  Base64.getDecoder().decode(obj.getPicture().getBytes());
 		InputStream pictureStream = new ByteArrayInputStream(byteArray);
 
 		try (CallableStatement cs = this.connect.prepareCall(query)) {
@@ -77,7 +77,7 @@ public class GiftDAO extends DAO<Gift> {
 			cs.setString(2, obj.getName());
 			cs.setString(3, obj.getDescription());
 			cs.setDouble(4, obj.getPrice());
-			cs.setBinaryStream(5, pictureStream);
+			cs.setBlob(5, pictureStream);
 			cs.setString(6, obj.getLinkToWebsite());
 
 			cs.executeUpdate();
