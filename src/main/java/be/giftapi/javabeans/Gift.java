@@ -155,6 +155,9 @@ public class Gift implements Serializable{
 		return giftDAO.create(this);
 	}
 	
+	public boolean update() {
+		return giftDAO.update(this);
+	}
 	public static Gift getGift(int id) {
 		return giftDAO.find(id);
 	}

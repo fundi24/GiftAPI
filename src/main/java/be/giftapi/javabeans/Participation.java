@@ -1,6 +1,7 @@
 package be.giftapi.javabeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import be.giftapi.dao.AbstractDAOFactory;
 import be.giftapi.dao.DAO;
@@ -68,5 +69,9 @@ public class Participation implements Serializable {
     //Call to DAO
     public boolean insert() {
 		return participationDAO.create(this);
+    }
+    
+    public static ArrayList<Participation> getParticipationsFromGift(int idGift){
+    	return participationDAO.findAll(idGift);
     }
 }
