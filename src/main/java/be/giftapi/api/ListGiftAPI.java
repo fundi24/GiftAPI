@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import be.giftapi.javabeans.Customer;
@@ -94,11 +95,13 @@ public class ListGiftAPI {
 	@PUT
 	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateNotification(@PathParam("id") int id, String data) {
+	public Response updateNotification(@PathParam("id") int idListGift, String data) {
 		JSONObject json = new JSONObject(data);
+		System.out.println(data);
+		//JSONArray giftsJson = json.getJSONArray();
 		boolean status = json.getBoolean("status");
 		ListGift listGift = new ListGift();
-		listGift.setIdListGift(id);
+		listGift.setIdListGift(idListGift);
 		listGift.setStatus(status);
 		boolean success = listGift.update();
 		if(!success) {
