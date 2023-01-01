@@ -66,9 +66,9 @@ public class GiftDAO extends DAO<Gift> {
 	public boolean update(Gift obj) {
 		boolean success = false;
 
-		String query = "{call update_gift(?,?,?,?,?,?)}";
+		String query = "{call update_gift(?,?,?,?,?,?,?,?,?)}";
 
-		byte[] byteArray = obj.getPicture().getBytes();
+		byte[] byteArray =  Base64.getDecoder().decode(obj.getPicture().getBytes());
 		InputStream pictureStream = new ByteArrayInputStream(byteArray);
 
 		try (CallableStatement cs = this.connect.prepareCall(query)) {
@@ -77,9 +77,12 @@ public class GiftDAO extends DAO<Gift> {
 			cs.setString(2, obj.getName());
 			cs.setString(3, obj.getDescription());
 			cs.setDouble(4, obj.getPrice());
-			cs.setBlob(5, pictureStream);
-			cs.setString(6, obj.getLinkToWebsite());
-
+			cs.setInt(5, obj.getPriority());
+			cs.setBinaryStream(6, pictureStream);
+			cs.setBoolean(7, obj.isBooked());
+			cs.setBoolean(8, obj.isMultiplePayment());
+			cs.setString(9, obj.getLinkToWebsite());
+			
 			cs.executeUpdate();
 
 			success = true;

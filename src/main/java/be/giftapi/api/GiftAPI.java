@@ -25,7 +25,6 @@ public class GiftAPI {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response insertGift(String data) {
-		System.out.println(data);
 		JSONObject json = new JSONObject(data);
 		String name = json.getString("name");
 		String description = json.getString("description");
@@ -84,21 +83,18 @@ public class GiftAPI {
 	@PUT
 	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateGift(@PathParam("id") int id, String data) {
+	public Response updateGift(@PathParam("id") int idGift, String data) {
 		JSONObject json = new JSONObject(data);
 		String name = json.getString("name");
 		String description = json.getString("description");
 		String picture = json.getString("picture");
 		double price = json.getDouble("price");
+		int priority = json.getInt("priority");
+		boolean booked = json.getBoolean("booked");
+		boolean multiplePayment = json.getBoolean("multiplePayment");
 		String linkToWebsite = json.getString("linkToWebsite");
 		
-		Gift gift = new Gift();
-		gift.setIdGift(id);
-		gift.setName(name);
-		gift.setDescription(description);
-		gift.setPicture(picture);
-		gift.setPrice(price);
-		gift.setLinkToWebsite(linkToWebsite);
+		Gift gift = new Gift(idGift, name, description, price, priority, picture, booked, multiplePayment, linkToWebsite, null);
 		
 		boolean success = gift.update();
 	  
