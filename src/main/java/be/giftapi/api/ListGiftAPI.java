@@ -100,9 +100,15 @@ public class ListGiftAPI {
 		System.out.println(data);
 		//JSONArray giftsJson = json.getJSONArray();
 		boolean status = json.getBoolean("status");
+		JSONObject jsonDl = json.getJSONObject("deadline");
+		int year = jsonDl.getInt("year");
+		int month = jsonDl.getInt("monthValue");
+		int day = jsonDl.getInt("dayOfMonth");
+		LocalDate deadline = LocalDate.of(year, month, day);
 		ListGift listGift = new ListGift();
 		listGift.setIdListGift(idListGift);
 		listGift.setStatus(status);
+		listGift.setDeadline(deadline);
 		boolean success = listGift.update();
 		if(!success) {
 			return Response.status(Status.SERVICE_UNAVAILABLE).build();
