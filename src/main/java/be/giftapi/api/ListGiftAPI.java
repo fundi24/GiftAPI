@@ -26,6 +26,10 @@ import be.giftapi.javabeans.Notification;
 @Path("/listgift")
 public class ListGiftAPI {
 	
+	
+	
+	
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response insertListGift(String data) {
@@ -66,6 +70,20 @@ public class ListGiftAPI {
 		}
 	}
 	
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("{id}")
+	public Response findListGiftById(@PathParam("id") int idListGift) {
+		ListGift listgift = ListGift.getListGiftById(idListGift);
+		
+		if(listgift == null) {
+			return Response.status(Status.SERVICE_UNAVAILABLE).build();
+		}
+		
+		return Response.status(Status.OK).entity(listgift).build();
+	}
+	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("customer/{id}")
@@ -97,8 +115,7 @@ public class ListGiftAPI {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateNotification(@PathParam("id") int idListGift, String data) {
 		JSONObject json = new JSONObject(data);
-		System.out.println(data);
-		//JSONArray giftsJson = json.getJSONArray();
+		
 		boolean status = json.getBoolean("status");
 		JSONObject jsonDl = json.getJSONObject("deadline");
 		int year = jsonDl.getInt("year");
