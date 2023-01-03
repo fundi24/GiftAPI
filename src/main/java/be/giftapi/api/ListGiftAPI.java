@@ -115,7 +115,6 @@ public class ListGiftAPI {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateNotification(@PathParam("id") int idListGift, String data) {
 		JSONObject json = new JSONObject(data);
-		
 		boolean status = json.getBoolean("status");
 		JSONObject jsonDl = json.getJSONObject("deadline");
 		int year = jsonDl.getInt("year");
@@ -126,6 +125,18 @@ public class ListGiftAPI {
 		listGift.setIdListGift(idListGift);
 		listGift.setStatus(status);
 		listGift.setDeadline(deadline);
+		JSONArray invitations = json.getJSONArray("invitations");
+		for (int i = 0; i < invitations.length(); i++) {
+			JSONObject objJson = invitations.getJSONObject(i);
+			int idCustomer = objJson.getInt("idCustomer");
+			String firstName = objJson.getString("firstName");
+			String lastName = objJson.getString("lastName");
+			Customer invite = new Customer();
+			invite.setIdCustomer(idCustomer);
+			invite.setFirstName(firstName);
+			invite.setLastName(lastName);
+			listGift.addInvitations(invite);
+		}
 		boolean success = listGift.update();
 		if(!success) {
 			return Response.status(Status.SERVICE_UNAVAILABLE).build();

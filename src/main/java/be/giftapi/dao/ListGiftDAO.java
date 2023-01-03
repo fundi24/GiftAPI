@@ -53,8 +53,10 @@ public class ListGiftDAO extends DAO<ListGift> {
 	@Override
 	public boolean update(ListGift obj) {
 		boolean success = false;
+		boolean success2 = false;
 
 		String query = "{call update_listgift(?,?,?)}";
+		String query2 = "{call insert_invitation(?,?)}";
 
 		try (CallableStatement cs = this.connect.prepareCall(query)) {
 
@@ -67,8 +69,24 @@ public class ListGiftDAO extends DAO<ListGift> {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
+		
+		try (CallableStatement cs = this.connect.prepareCall(query2)) {
 
-		return success;
+			int last = obj.getInvitations().size();
+			cs.setInt(1, obj.getInvitations().get(last-1).getIdCustomer());
+			cs.setInt(2, obj.getIdListGift());
+			cs.executeUpdate();
+
+			success2 = true;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		if(success == true && success2 == true) {
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override
