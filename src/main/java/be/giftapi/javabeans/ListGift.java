@@ -136,7 +136,8 @@ public class ListGift implements Serializable {
 			return listGiftDAO.create(this);
 	    }
 	    
-		public static ListGift getListGift(int id) {
+	    
+		public static ListGift getListGiftById(int id) {
 			return listGiftDAO.find(id);
 		}
 
