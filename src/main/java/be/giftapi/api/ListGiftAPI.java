@@ -22,14 +22,9 @@ import be.giftapi.javabeans.Customer;
 import be.giftapi.javabeans.ListGift;
 import be.giftapi.javabeans.Notification;
 
-
 @Path("/listgift")
 public class ListGiftAPI {
-	
-	
-	
-	
-	
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response insertListGift(String data) {
@@ -44,72 +39,64 @@ public class ListGiftAPI {
 		String theme = json.getString("theme");
 		JSONObject getIdOwner = json.getJSONObject("owner");
 		int idOwner = getIdOwner.getInt("idCustomer");
-		
-		if(name == null || theme == null || idOwner == 0) {
-			return Response
-					.status(Status.BAD_REQUEST)
-					.build();
+
+		if (name == null || theme == null || idOwner == 0) {
+			return Response.status(Status.BAD_REQUEST).build();
 		}
-		
+
 		Customer owner = new Customer();
 		owner.setIdCustomer(idOwner);
-		
+
 		ListGift listGift = new ListGift(0, name, deadline, status, theme, owner);
 		boolean success = listGift.insert();
-		if(!success) {
-			
-			return Response
-					.status(Status.SERVICE_UNAVAILABLE)
-					.build();
-		}
-		else {
-			return Response
-					.status(Status.CREATED)
-					.header("Location", "/GiftAPI/api/listgift/" + listGift.getIdListGift())
-					.build();
+		if (!success) {
+
+			return Response.status(Status.SERVICE_UNAVAILABLE).build();
+		} else {
+			return Response.status(Status.CREATED)
+					.header("Location", "/GiftAPI/api/listgift/" + listGift.getIdListGift()).build();
 		}
 	}
-	
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{id}")
 	public Response findListGiftById(@PathParam("id") int idListGift) {
 		ListGift listgift = ListGift.getListGiftById(idListGift);
-		
-		if(listgift == null) {
+
+		if (listgift == null) {
 			return Response.status(Status.SERVICE_UNAVAILABLE).build();
 		}
-		
+
 		return Response.status(Status.OK).entity(listgift).build();
 	}
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("customer/{id}")
 	public Response getListGiftsFromCustomer(@PathParam("id") int idCustomer) {
 		ArrayList<ListGift> listGifts = ListGift.getListGiftFromCustomer(idCustomer);
-		
-		if(listGifts == null) {
+
+		if (listGifts == null) {
 			return Response.status(Status.SERVICE_UNAVAILABLE).build();
 		}
-		
+
 		return Response.status(Status.OK).entity(listGifts).build();
 	}
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("invitation/{id}")
 	public Response getInvitationsFromListGift(@PathParam("id") int idListGift) {
 		ArrayList<Customer> customers = ListGift.getInvitationsFromListGift(idListGift);
-		
-		if(customers == null) {
+
+		if (customers == null) {
 			return Response.status(Status.SERVICE_UNAVAILABLE).build();
 		}
-		
+
 		return Response.status(Status.OK).entity(customers).build();
 	}
-	
+
 	@PUT
 	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -137,13 +124,13 @@ public class ListGiftAPI {
 			invite.setLastName(lastName);
 			listGift.addInvitations(invite);
 		}
+
 		boolean success = listGift.update();
-		if(!success) {
+		if (!success) {
 			return Response.status(Status.SERVICE_UNAVAILABLE).build();
-		}
-		else {
+		} else {
 			return Response.status(Status.NO_CONTENT).build();
 		}
 	}
-	
+
 }
