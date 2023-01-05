@@ -24,7 +24,6 @@ public class CustomerAPI {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response insertCustomer(String data) {
-		
 		JSONObject json = new JSONObject(data);
 		String firstName = json.getString("firstName");
 		String lastName = json.getString("lastName");
@@ -44,7 +43,7 @@ public class CustomerAPI {
 		}
 		
 		Customer customer = new Customer(0,firstName, lastName, dateOfBirth, username, password);
-	
+		
 		boolean success = customer.insert();
 		if(!success) {
 			
@@ -66,7 +65,6 @@ public class CustomerAPI {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response loginCustomer(String data) {
-		
 		JSONObject json = new JSONObject(data);
 		String username = json.getString("username");
 		String password = json.getString("password");

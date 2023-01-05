@@ -27,7 +27,8 @@ public class NotificationAPI {
 		JSONObject json = new JSONObject(data);
 	    String message = json.getString("message");
 	    boolean read = json.getBoolean("read");
-	    int idCustomer = json.getInt("idCustomer");
+	    JSONObject jsonCustomer = json.getJSONObject("customer");
+		int idCustomer = jsonCustomer.getInt("idCustomer");
 	    
 	    if(message == null || idCustomer == 0) {
 			return Response
@@ -35,7 +36,6 @@ public class NotificationAPI {
 					.build();
 	    }
 	    
-	    //Customer customer = Customer.getCustomer(idCustomer);
 	    Customer customer = new Customer();
 		customer.setIdCustomer(idCustomer);
 		
