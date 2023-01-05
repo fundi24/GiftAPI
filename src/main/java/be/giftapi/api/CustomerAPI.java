@@ -65,7 +65,6 @@ public class CustomerAPI {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response loginCustomer(String data) {
-		
 		JSONObject json = new JSONObject(data);
 		String username = json.getString("username");
 		String password = json.getString("password");
