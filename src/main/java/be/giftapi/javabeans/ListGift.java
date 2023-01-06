@@ -8,152 +8,142 @@ import be.giftapi.dao.AbstractDAOFactory;
 import be.giftapi.dao.DAO;
 import be.giftapi.dao.ListGiftDAO;
 
-
 public class ListGift implements Serializable {
-	
+
 	private static final long serialVersionUID = 99181030694279507L;
-	private static final AbstractDAOFactory adf =  AbstractDAOFactory.getFactory();;
+	private static final AbstractDAOFactory adf = AbstractDAOFactory.getFactory();;
 	private static final DAO<ListGift> listGiftDAO = adf.getListGiftDAO();
-	
-	
-	 private int idListGift;
-	    private String name;
-	    private LocalDate deadline;
-	    private boolean status;
-	    private String theme;
-	    private Customer owner;
-	    private ArrayList<Customer> invitations;
-	    private ArrayList<Gift> gifts;
 
-	    public ListGift()
-	    {
-	    	invitations = new ArrayList<>();
-			gifts = new ArrayList<>();
-	    }
-	    
-		public ListGift(int idListGift, String name, LocalDate deadline, boolean status, String theme, Customer owner) {
-			this.idListGift = idListGift;
-			this.name = name;
-			this.deadline = deadline;
-			this.status = status;
-			this.theme = theme;
-			this.owner = owner;
-			invitations = new ArrayList<>();
-			gifts = new ArrayList<>();
-		}
+	private int idListGift;
+	private String name;
+	private LocalDate deadline;
+	private boolean status;
+	private String theme;
+	private Customer owner;
+	private ArrayList<Customer> invitations;
+	private ArrayList<Gift> gifts;
 
-		
-		//Getters and Setters
+	public ListGift() {
+		invitations = new ArrayList<>();
+		gifts = new ArrayList<>();
+	}
 
-		public int getIdListGift() {
-	        return idListGift;
-	    }
+	public ListGift(int idListGift, String name, LocalDate deadline, boolean status, String theme, Customer owner) {
+		this.idListGift = idListGift;
+		this.name = name;
+		this.deadline = deadline;
+		this.status = status;
+		this.theme = theme;
+		this.owner = owner;
+		invitations = new ArrayList<>();
+		gifts = new ArrayList<>();
+	}
 
-	    public void setIdListGift(int idListGift) {
-	        this.idListGift = idListGift;
-	    }
+	// Getters and Setters
 
-	    public String getName() {
-	        return name;
-	    }
+	public int getIdListGift() {
+		return idListGift;
+	}
 
-	    public void setName(String name) {
-	        this.name = name;
-	    }
+	public void setIdListGift(int idListGift) {
+		this.idListGift = idListGift;
+	}
 
-	    public LocalDate getDeadline() {
-	        return deadline;
-	    }
+	public String getName() {
+		return name;
+	}
 
-	    public void setDeadline(LocalDate deadline) {
-	        this.deadline = deadline;
-	    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-	    public boolean isStatus() {
-	        return status;
-	    }
+	public LocalDate getDeadline() {
+		return deadline;
+	}
 
-	    public void setStatus(boolean status) {
-	        this.status = status;
-	    }
+	public void setDeadline(LocalDate deadline) {
+		this.deadline = deadline;
+	}
 
-	    public String getTheme() {
-	        return theme;
-	    }
+	public boolean isStatus() {
+		return status;
+	}
 
-	    public void setTheme(String theme) {
-	        this.theme = theme;
-	    }
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
 
-	    public Customer getOwner() {
-	        return owner;
-	    }
+	public String getTheme() {
+		return theme;
+	}
 
-	    public void setOwner(Customer owner) {
-	        this.owner = owner;
-	    }
+	public void setTheme(String theme) {
+		this.theme = theme;
+	}
 
-	    public ArrayList<Customer> getInvitations() {
-	        return invitations;
-	    }
+	public Customer getOwner() {
+		return owner;
+	}
 
-	    public void setInvitations(ArrayList<Customer> invitations) {
-	        this.invitations = invitations;
-	    }
+	public void setOwner(Customer owner) {
+		this.owner = owner;
+	}
 
-	    public ArrayList<Gift> getGifts() {
-	        return gifts;
-	    }
+	public ArrayList<Customer> getInvitations() {
+		return invitations;
+	}
 
-	    public void setGifts(ArrayList<Gift> gifts) {
-	        this.gifts = gifts;
-	    }
-	    
-	    
-	    //Add and remove for lists
-	    
-	    public void addInvitations(Customer customer) {
-	    	invitations.add(customer);
-		}
-		
-	    
-	    public void removeInvitations(Customer customer) {
-	    	invitations.remove(customer);
-		}
-	    
-	    public void addGift(Gift gift) {
-	    	gifts.add(gift);
-	    }
-	    
-	    public void removeGift(Gift gift) {
-	    	gifts.remove(gift);
-	    }
-		
-	    
-	    //Call to DAO
-	    
-	    public boolean insert() {
-			return listGiftDAO.create(this);
-	    }
-	    
-	    
-		public static ListGift getListGiftById(int id) {
-			return listGiftDAO.find(id);
-		}
+	public void setInvitations(ArrayList<Customer> invitations) {
+		this.invitations = invitations;
+	}
 
-		public static ArrayList<ListGift> getListGiftFromCustomer(int id){
-			return listGiftDAO.findAll(id);
-		}
-		
-		public static ArrayList<Customer> getInvitationsFromListGift(int id){
-			ListGiftDAO listgiftDao = (ListGiftDAO) adf.getListGiftDAO();
-			return listgiftDao.getInvitationsFromListGift(id);	
-		}
-		
-		public boolean update() {
-			return listGiftDAO.update(this);
-		}
-		
-		
-	
+	public ArrayList<Gift> getGifts() {
+		return gifts;
+	}
+
+	public void setGifts(ArrayList<Gift> gifts) {
+		this.gifts = gifts;
+	}
+
+	// Add and remove for lists
+
+	public void addInvitations(Customer customer) {
+		invitations.add(customer);
+	}
+
+	public void removeInvitations(Customer customer) {
+		invitations.remove(customer);
+	}
+
+	public void addGift(Gift gift) {
+		gifts.add(gift);
+	}
+
+	public void removeGift(Gift gift) {
+		gifts.remove(gift);
+	}
+
+	// Call to DAO
+
+	public boolean insert() {
+		return listGiftDAO.create(this);
+	}
+
+	public static ListGift getListGiftById(int id) {
+		return listGiftDAO.find(id);
+	}
+
+	public static ArrayList<ListGift> getListGiftFromCustomer(int id) {
+		return listGiftDAO.findAll(id);
+	}
+
+	public static ArrayList<Customer> getInvitationsFromListGift(int id) {
+		ListGiftDAO listgiftDao = (ListGiftDAO) adf.getListGiftDAO();
+		return listgiftDao.getInvitationsFromListGift(id);
+	}
+
+	public boolean update() {
+		return listGiftDAO.update(this);
+	}
+
 }

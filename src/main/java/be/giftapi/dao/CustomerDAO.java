@@ -115,6 +115,7 @@ public class CustomerDAO extends DAO<Customer> {
 		}
 		catch (SQLException e) {
 			System.out.println(e.getMessage());
+			return null;
 		} 
 		return customers;
 	}

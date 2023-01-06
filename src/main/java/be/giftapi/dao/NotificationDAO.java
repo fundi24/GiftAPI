@@ -111,6 +111,7 @@ public class NotificationDAO extends DAO<Notification> {
 			}
 			catch (SQLException e) {
 				System.out.println(e.getMessage());
+				return null;
 			} 
 			return notifications;
 		}

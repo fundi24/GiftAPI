@@ -73,7 +73,6 @@ public class NotificationAPI {
 	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateNotification(@PathParam("id") int id, String data) {
-		//JSONObject json = new JSONObject(data);
 	    Notification notification = new Notification();
 	    notification.setIdNotification(id);
 		boolean success = notification.update();

@@ -163,6 +163,7 @@ public class ListGiftDAO extends DAO<ListGift> {
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			return null;
 		}
 		return listgifts;
 	}
@@ -201,6 +202,7 @@ public class ListGiftDAO extends DAO<ListGift> {
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			return null;
 		}
 
 		return invitations;
