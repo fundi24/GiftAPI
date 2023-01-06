@@ -25,7 +25,7 @@ public class CustomerDAO extends DAO<Customer> {
 
 		String query = "{call insert_customer(?,?,?,?,?)}";
 
-		// verifier si l'username est dispo
+		
 		try (CallableStatement cs = this.connect.prepareCall(query)) {
 
 			cs.setString(1, obj.getFirstName());
@@ -120,7 +120,6 @@ public class CustomerDAO extends DAO<Customer> {
 	}
 	
 	public Customer find(String username, String password) {
-		System.out.println("DANS login");
         Customer customer = null;
         String query = "{? = call flogin(?,?)}";
         try (CallableStatement cs = this.connect.prepareCall(query)) {
