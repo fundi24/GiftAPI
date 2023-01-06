@@ -108,8 +108,11 @@ public class ListGiftDAO extends DAO<ListGift> {
 			int intStatus = Integer.parseInt(String.valueOf(values[3]));
 			boolean status = intStatus == 1 ? true : false;
 			String theme = String.valueOf(values[4]);
+			int idCustomer = Integer.parseInt(String.valueOf(values[5]));
 			
-			listgift = new ListGift(id, name, deadline, status, theme, null);
+			Customer customer = new Customer();
+			customer.setIdCustomer(idCustomer);
+			listgift = new ListGift(id, name, deadline, status, theme, customer);
 			
 		
 	}

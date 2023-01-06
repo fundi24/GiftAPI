@@ -22,17 +22,13 @@ public class Customer implements Serializable {
 	private LocalDate dateOfBirth;
 	private String username;
 	private String password;
-	private ArrayList<Participation> participations;
 	private ArrayList<ListGift> myListGifts;
-	private ArrayList<ListGift> sharedListGifts;
 	private ArrayList<Notification> notifications;	
 	
 	
 	public Customer()
 	{
-		participations = new ArrayList<>();
 		myListGifts = new ArrayList<>();
-		sharedListGifts = new ArrayList<>();
 		notifications = new ArrayList<>();
 	}
 	
@@ -45,9 +41,7 @@ public class Customer implements Serializable {
 		this.dateOfBirth = dateOfBirth;
 		this.username = username;
 		this.password = password;
-		participations = new ArrayList<>();
 		myListGifts = new ArrayList<>();
-		sharedListGifts = new ArrayList<>();
 		notifications = new ArrayList<>();
 	}
 
@@ -102,13 +96,6 @@ public class Customer implements Serializable {
 		this.password = password;
 	}
 
-	public ArrayList<Participation> getParticipations() {
-		return participations;
-	}
-
-	public void setParticipations(ArrayList<Participation> participations) {
-		this.participations = participations;
-	}
 
 	public ArrayList<ListGift> getMyListGifts() {
 		return myListGifts;
@@ -118,13 +105,6 @@ public class Customer implements Serializable {
 		this.myListGifts = myListGifts;
 	}
 
-	public ArrayList<ListGift> getSharedListGifts() {
-		return sharedListGifts;
-	}
-
-	public void setSharedListGifts(ArrayList<ListGift> sharedListGifts) {
-		this.sharedListGifts = sharedListGifts;
-	}
 
 	public ArrayList<Notification> getNotifications() {
 		return notifications;
@@ -136,31 +116,22 @@ public class Customer implements Serializable {
 	
 	//Add and remove for lists
 	
-	public void addParticipation(Participation participation) {
-		participations.add(participation);
-	}
+	
 	public void addMyListGifts(ListGift listGift) {
 		myListGifts.add(listGift);
 	}
 	
-	public void addSharedListGift(ListGift sharedlistGift) {
-		sharedListGifts.add(sharedlistGift);
-	}
 	
 	public void addNotifications(Notification notification) {
 		notifications.add(notification);
 	}
 	
-	public void removeParticipation(Participation participation) {
-		participations.remove(participation);
-	}
+	
 	public void removeMyListGifts(ListGift listGift) {
 		myListGifts.remove(listGift);
 	}
 	
-	public void removeSharedListGift(ListGift sharedlistGift) {
-		sharedListGifts.remove(sharedlistGift);
-	}
+	
 	
 	public void removeNotifications(Notification notification) {
 		notifications.remove(notification);

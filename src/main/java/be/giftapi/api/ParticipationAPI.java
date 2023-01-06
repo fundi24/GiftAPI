@@ -26,8 +26,10 @@ public class ParticipationAPI {
 	public Response insertParticipation(String data) {
 		JSONObject json = new JSONObject(data);
 		double amountPaid = json.getDouble("amountPaid");
-		int idCustomer = json.getInt("idCustomer");
-		int idGift = json.getInt("idGift");
+		JSONObject jsonCustomer = json.getJSONObject("customer");
+		int idCustomer = jsonCustomer.getInt("idCustomer");
+		JSONObject jsonGift = json.getJSONObject("gift");
+		int idGift = jsonGift.getInt("idGift");
 		
 		if(amountPaid == 0.0 || idCustomer == 0 || idGift == 0) {
 			return Response
@@ -35,10 +37,10 @@ public class ParticipationAPI {
 					.build();
 		}
 		
-	    //Customer customer = Customer.getCustomer(idCustomer);
+	    
 		Customer customer = new Customer();
 		customer.setIdCustomer(idCustomer);
-	    //Gift gift = Gift.getGift(idGift);
+	   
 		Gift gift = new Gift();
 		gift.setIdGift(idGift);
 		

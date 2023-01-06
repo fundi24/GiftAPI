@@ -25,7 +25,7 @@ public class CustomerDAO extends DAO<Customer> {
 
 		String query = "{call insert_customer(?,?,?,?,?)}";
 
-		// verifier si l'username est dispo
+		
 		try (CallableStatement cs = this.connect.prepareCall(query)) {
 
 			cs.setString(1, obj.getFirstName());
@@ -56,12 +56,14 @@ public class CustomerDAO extends DAO<Customer> {
 
 	@Override
 	public Customer find(int id) {
+		
 		 Customer customer = null;
 	        String query = "{? = call fselect_customer(?)}";
 	        try (CallableStatement cs = this.connect.prepareCall(query)) {
 	            cs.registerOutParameter(1, OracleTypes.STRUCT, "TYP_CUSTOMER");
 	            cs.setInt(2, id);
 	            cs.executeQuery();
+	            
 	            Object data = (Object) cs.getObject(1);
 	            Struct row = (Struct)data;
 	            Object[] values = (Object[]) row.getAttributes();
@@ -72,6 +74,7 @@ public class CustomerDAO extends DAO<Customer> {
 	            LocalDate dateOfBirth = LocalDate.parse(DOB, formatter);
 	            String username = String.valueOf(values[4]);
 	            String password = String.valueOf(values[5]);
+	            
 	            customer = new Customer(id, firstName, lastName, dateOfBirth, username, password);
 	        } catch (SQLException e) {
 	            System.out.println(e.getMessage());
